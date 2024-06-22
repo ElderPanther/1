@@ -11,28 +11,33 @@ def index_page(request):
     return render(request, 'index.html')
 
 # auxiliar: retorna 2 listados -> uno de las imágenes de la API y otro de los favoritos del usuario.
-def getAllImagesAndFavouriteList(request):
-    images = []
+def getAllImagesAndFavouriteList(request, input):
+    images = services_nasa_image_gallery.getAllImages(input)
     favourite_list = []
 
-    return images, favourite_list
+    return images
 
 # función principal de la galería.
-def home(request):
+def home(request, input=None):
     # llama a la función auxiliar getAllImagesAndFavouriteList() y obtiene 2 listados: uno de las imágenes de la API y otro de favoritos por usuario*.
     # (*) este último, solo si se desarrolló el opcional de favoritos; caso contrario, será un listado vacío [].
-    images = []
+    images = getAllImagesAndFavouriteList(request, input)
     favourite_list = []
+    
     return render(request, 'home.html', {'images': images, 'favourite_list': favourite_list} )
 
 
 # función utilizada en el buscador.
 def search(request):
-    images, favourite_list = getAllImagesAndFavouriteList(request)
+    
+    #images = getAllImagesAndFavouriteList(request, input)
     search_msg = request.POST.get('query', '')
-
+    
     # si el usuario no ingresó texto alguno, debe refrescar la página; caso contrario, debe filtrar aquellas imágenes que posean el texto de búsqueda.
-    pass
+    if search_msg == "":
+        return home(request)
+    else:
+        return home(request, search_msg)
 
 
 # las siguientes funciones se utilizan para implementar la sección de favoritos: traer los favoritos de un usuario, guardarlos, eliminarlos y desloguearse de la app.
