@@ -4,7 +4,8 @@
 from django.shortcuts import redirect, render
 from .layers.services import services_nasa_image_gallery
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 # función que invoca al template del índice de la aplicación.
 def index_page(request):
@@ -60,3 +61,15 @@ def deleteFavourite(request):
 @login_required
 def exit(request):
     pass
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home') 
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos')
+    return render(request, 'registration/login.html')
