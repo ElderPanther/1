@@ -3,22 +3,50 @@
     <h1 class="text-center">Galería de Imágenes de la NASA</h1>
     <div class="d-flex justify-content-center" style="margin-bottom: 1%">
         <!-- Buscador del sitio -->
-        <form class="d-flex" action="{% url 'buscar' %}" method="POST">
-            {% csrf_token %}
+        <form id="searchForm" class="d-flex" action="{% url 'buscar' %}" method="GET">
             <input class="form-control me-2" type="search" name="query" placeholder="Escribí una palabra" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
     </div>
+    <style>
+        #spinner {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin: -25px 0 0 -25px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+    
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+    
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <div id="spinner"></div>
 
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4" id="imagenes">
         {% for imagen in images %}
         <div class="col">
             <div class="card">
-                <img src="{{ imagen.image_url}}" class="card-img-top" alt="imagen">
+                <img src="{{ imagen.image_url }}" class="card-img-top" alt="imagen">
                 <div class="card-body">
-                    <h5 class="card-title">{{ imagen.title}}</h5>
-                    <p class="card-text">{{ imagen.description}}</p>
+                    <h5 class="card-title">{{ imagen.title }}</h5>
+                    <p class="card-text">{{ imagen.description }}</p>
                 </div>
                 {% if request.user.is_authenticated %}
                 <div class="card-footer text-center">
@@ -27,10 +55,12 @@
                         <input type="hidden" name="title" value="{{ imagen.title }}">
                         <input type="hidden" name="description" value="{{ imagen.description }}">
                         <input type="hidden" name="image_url" value="{{ imagen.image_url }}">
-                        <input type="hidden" name="date" value="{{ imagen.date }}"> {% if imagen in favourite_list %}
-                        <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está añadida a favoritos</button> {% else %}
-                        <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button> {% endif %}
-
+                        <input type="hidden" name="date" value="{{ imagen.date }}">
+                        {% if imagen in favourite_list %}
+                        <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está añadida a favoritos</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button>
+                        {% endif %}
                     </form>
                 </div>
                 {% endif %}
@@ -39,4 +69,27 @@
         {% endfor %}
     </div>
 </main>
+
+<div id="spinner"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // Mostrar el spinner al enviar cualquier formulario
+        $('form').on('submit', function() {
+            $('#spinner').show();
+        });
+
+        // Mostrar el spinner al hacer clic en cualquier enlace
+        $('a').on('click', function() {
+            $('#spinner').show();
+        });
+
+        // Mostrar el spinner al hacer clic en cualquier botón
+        $('button').on('click', function() {
+            $('#spinner').show();
+        });
+    });
+</script>
 {% endblock %}
