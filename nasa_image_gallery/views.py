@@ -32,7 +32,7 @@ def home(request, input=None):
 def search(request):
     
     #images = getAllImagesAndFavouriteList(request, input)
-    search_msg = request.POST.get('query', '')
+    search_msg = request.GET.get('query', '')
     
     # si el usuario no ingresó texto alguno, debe refrescar la página; caso contrario, debe filtrar aquellas imágenes que posean el texto de búsqueda.
     if search_msg == "":
