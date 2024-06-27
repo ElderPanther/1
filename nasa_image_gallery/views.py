@@ -71,5 +71,6 @@ def login_view(request):
             login(request, user)
             return redirect('home') 
         else:
+            messages.get_messages(request).used = True
             messages.error(request, 'Usuario o contraseña incorrectos')
     return render(request, 'registration/login.html')
