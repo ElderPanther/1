@@ -2,7 +2,7 @@
 <div class="login-form" style="text-align: center;">
     <form action="" method="POST" style="display: inline-block;">
         {% csrf_token %}
-        <h2 class="text-center">Inicio de sesión</h2>
+        <h2 class="text-center" style="color: #49708a;"><strong>Inicio de sesión</strong></h2>
         <div class="form-group" style="margin-bottom: 5%;">
             <input type="text" name="username" id="username" class="form-control" placeholder="Usuario" required="required">
         </div>
@@ -14,4 +14,30 @@
         </div>
     </form>
 </div>
+<<<<<<< Updated upstream
 {% endblock %}
+=======
+<div id="spinner"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // Mostrar el spinner al enviar cualquier formulario
+        $('form').on('submit', function() {
+            $('#spinner').show();
+        });
+
+        // Mostrar el spinner al hacer clic en cualquier enlace
+        $('a').on('click', function() {
+            $('#spinner').show();
+        });
+
+        // Mostrar el spinner al hacer clic en cualquier botón
+        $('button').on('click', function() {
+            $('#spinner').show();
+        });
+    });
+</script>
+{% endblock %}
+>>>>>>> Stashed changes

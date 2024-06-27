@@ -1,9 +1,34 @@
 {% extends 'header.html' %} {% block content %} {% if request.user.is_authenticated %}
 <h2 class="text-center">Bienvenido {{ user.username | upper }}!</h2>
 {% else %}
-<h2 class="text-center">Bienvenido!</h2>
+<h2 class="text-center" style="color: #49708a;"><strong>Bienvenido!</strong></h2>
 {% endif %}
 <p class="text-center">
-    Mirá las imágenes desde <a href="{% url 'home' %}">este link.</a>
+    Mirá las imágenes desde la galería o haga click en <a href="{% url 'home' %}">este link.</a>
 </p>
+<<<<<<< Updated upstream
+=======
+<div id="spinner"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // Mostrar el spinner al enviar cualquier formulario
+        $('form').on('submit', function() {
+            $('#spinner').show();
+        });
+
+        // Mostrar el spinner al hacer clic en cualquier enlace
+        $('a').on('click', function() {
+            $('#spinner').show();
+        });
+
+        // Mostrar el spinner al hacer clic en cualquier botón
+        $('button').on('click', function() {
+            $('#spinner').show();
+        });
+    });
+</script>
+>>>>>>> Stashed changes
 {% endblock %}
