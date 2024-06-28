@@ -14,7 +14,6 @@ def index_page(request):
 # auxiliar: retorna 2 listados -> uno de las imágenes de la API y otro de los favoritos del usuario.
 def getAllImagesAndFavouriteList(request, input):
     images = services_nasa_image_gallery.getAllImages(input)
-    favourite_list = []
 
     return images
 
@@ -23,9 +22,8 @@ def home(request, input=None):
     # llama a la función auxiliar getAllImagesAndFavouriteList() y obtiene 2 listados: uno de las imágenes de la API y otro de favoritos por usuario*.
     # (*) este último, solo si se desarrolló el opcional de favoritos; caso contrario, será un listado vacío [].
     images = getAllImagesAndFavouriteList(request, input)
-    favourite_list = []
     
-    return render(request, 'home.html', {'images': images, 'favourite_list': favourite_list} )
+    return render(request, 'home.html', {'images': images} )
 
 
 # función utilizada en el buscador.
@@ -69,7 +67,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home') 
+            return redirect('index') 
         else:
             messages.get_messages(request).used = True
             messages.error(request, 'Usuario o contraseña incorrectos')
